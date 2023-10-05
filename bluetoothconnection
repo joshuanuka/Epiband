@@ -1,0 +1,26 @@
+import bluetooth
+
+# MAC address of the Arduino board
+arduino_mac = 'E0:A6:C8:B3:76:01'  # Replace with the MAC address of your Arduino board
+
+# Get user input
+value = input("Enter a value (1 or 2): ")
+
+# Check if input is valid
+if value.isdigit() and int(value) in [1, 2]:
+    # Convert input value to integer
+    value = int(value)
+   
+    # Establish Bluetooth connection
+    sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+    sock.connect((arduino_mac, 1))  # Use the appropriate channel for your Bluetooth module
+   
+    # Send value to Arduino
+    sock.send(bytes([value]))
+   
+    print(f"Sent value: {value}")
+   
+    # Close Bluetooth connection
+    sock.close()
+else:
+    print("Invalid input. Please enter 1 or 2.")
